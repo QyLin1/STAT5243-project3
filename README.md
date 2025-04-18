@@ -59,3 +59,41 @@ python log_server.py
 启动后将监听 `http://127.0.0.1:5000/log`，并等待来自前端应用的日志上传。
 
 ---
+
+--------------------------------------------------------
+
+Statistical Analysis - Nan Xiao
+
+Summarization of the steps:
+We've created a Python script for analyzing an AB test dataset comparing "red" and "gray" groups.
+The script performs the following analysis for each metric:
+Computes descriptive statistics for each group
+Tests for normality to decide which statistical test to use
+Performs either t-tests (for normal data) or Mann-Whitney U tests (for non-normal data)
+Creates bar plots comparing the groups with significance indicators
+Adds detailed statistics and test results on the plots
+The script saves all plots to a dedicated directory (C:/Users/凡曲/AB_Test_Results) and also attempts to display them in windows.
+A summary CSV file with all statistical test results is also saved.
+
+Summary of Analysis Results
+Based on the analysis of the AB test data comparing "red" and "gray" groups, here are the key findings:
+Clicked Rate: No statistically significant difference between red and gray groups (p=0.3584)
+Clicked Count: Statistically significant difference (p=0.0211)
+Gray group has higher clicked count (7.94 vs 6.81)
+Gray interface performs 15.4% better in this metric
+Session Time: No statistically significant difference (p=0.6929)
+Error Count: Statistically significant difference (p<0.0001)
+Red group has lower error count (0.47 vs 1.10)
+Users are 80.3% less likely to make errors with the red interface
+Error Rate: Statistically significant difference (p=0.0001)
+Red group has lower error rate (0.0037 vs 0.0065)
+Users show 54.9% lower error rate with the red interface
+Overall Conclusion
+The red interface appears to perform better overall, winning in 2 out of 3 significant metrics (error count and error rate). While the gray interface leads in clicked count, the red interface demonstrates superior performance in reducing errors.
+The analysis shows that:
+Users click more with the gray interface
+Users make fewer errors with the red interface
+Session time isn't significantly different between interfaces
+Recommendation
+Based on the analysis, the red interface would be the recommended choice if minimizing errors is the primary goal. However, if higher engagement (more clicks) is prioritized, the gray interface might be preferred.
+All the plots, detailed statistics, and conclusions have been saved to C:/Users/凡曲/AB_Test_Results/ for further reference.
