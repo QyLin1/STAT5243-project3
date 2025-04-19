@@ -16,6 +16,7 @@ def hello():
 def receive_log():
     try:
         data = request.get_json()
+        print("📥 Received log:", data)
         if not data:
             return jsonify({"error": "No JSON received"}), 400
 
@@ -40,14 +41,13 @@ def status():
         latest_file = log_files[-1]
         df = pd.read_csv(latest_file)
 
-        # ✅ 新增：返回最近几条完整记录
         last_logs = df.tail(3).to_dict(orient="records")
 
         return {
             "columns": df.columns.tolist(),
             "total_logs": len(df),
             "latest_time": df["session_end_time"].max() if "session_end_time" in df.columns else None,
-            "last_logs": last_logs  # ✅ 添加这行
+            "last_logs": last_logs 
         }
     except Exception as e:
         return {"error": str(e)}, 500
