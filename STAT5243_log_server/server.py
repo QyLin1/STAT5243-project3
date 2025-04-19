@@ -40,13 +40,18 @@ def status():
         latest_file = log_files[-1]
         df = pd.read_csv(latest_file)
 
+        # ✅ 新增：返回最近几条完整记录
+        last_logs = df.tail(3).to_dict(orient="records")
+
         return {
-            "total_logs": len(df),
             "columns": df.columns.tolist(),
-            "latest_time": df["session_end_time"].max() if "session_end_time" in df.columns else None
+            "total_logs": len(df),
+            "latest_time": df["session_end_time"].max() if "session_end_time" in df.columns else None,
+            "last_logs": last_logs  # ✅ 添加这行
         }
     except Exception as e:
         return {"error": str(e)}, 500
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
