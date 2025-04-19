@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify
 import pandas as pd
 import os
 from datetime import datetime
+import glob
 
 app = Flask(__name__)
 LOG_DIR = "logs"
@@ -23,15 +24,11 @@ def receive_log():
 
         df = pd.DataFrame([data])
         write_header = not os.path.exists(log_file)
-
         df.to_csv(log_file, mode='a', index=False, header=write_header)
-        return jsonify({"status": "✅ Log saved"}), 200
 
+        return jsonify({"status": "✅ Log saved"}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-
-
-import glob
 
 @app.route("/status", methods=["GET"])
 def status():
@@ -42,6 +39,7 @@ def status():
 
         latest_file = log_files[-1]
         df = pd.read_csv(latest_file)
+
         return {
             "total_logs": len(df),
             "columns": df.columns.tolist(),
@@ -50,3 +48,5 @@ def status():
     except Exception as e:
         return {"error": str(e)}, 500
 
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000, debug=True)
