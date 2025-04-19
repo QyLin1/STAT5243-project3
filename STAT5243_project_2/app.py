@@ -23,6 +23,9 @@ import uuid
 warnings.filterwarnings('ignore')
 import atexit
 
+LOG_SERVER_URL = "https://stat5243-project3-1.onrender.com/log"
+
+
 session_log = {}
 def log_button_click(action):
     global session_log
@@ -59,7 +62,7 @@ def log_session_summary():
             for k, v in session_log.items()
         }
         
-        requests.post("http://127.0.0.1:5000/log", json=log_data)
+        requests.post("https://stat5243-project3-1.onrender.com/log", json=log_data)
         print("📤 Session log successfully sent to server!")
     except Exception as e:
         print(f"⚠️ Failed to send log to server: {e}")
