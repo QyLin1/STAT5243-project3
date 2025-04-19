@@ -31,10 +31,17 @@ def receive_log():
         return jsonify({"error": str(e)}), 500
 
 
+import glob
+
 @app.route("/status", methods=["GET"])
 def status():
     try:
-        df = pd.read_csv("received_logs.csv")
+        log_files = sorted(glob.glob(os.path.join(LOG_DIR, "session_log_*.csv")))
+        if not log_files:
+            return {"error": "No log files found"}, 404
+
+        latest_file = log_files[-1]
+        df = pd.read_csv(latest_file)
         return {
             "total_logs": len(df),
             "columns": df.columns.tolist(),
@@ -43,5 +50,3 @@ def status():
     except Exception as e:
         return {"error": str(e)}, 500
 
-if __name__ == "__main__":
-    app.run(host="0.0.0.0",debug=True, port=5000)
