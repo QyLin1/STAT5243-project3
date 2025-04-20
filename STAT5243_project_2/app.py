@@ -51,21 +51,32 @@ def log_session_summary():
     session_log["revert_button_clicked_rate"] = session_log["revert_button_clicked_count"] / total_time
     session_log["download_button_clicked_rate"] = session_log["download_button_clicked_count"] / total_time
 
-    log_df = pd.DataFrame([session_log])
+    # ✅ 修正这部分
+    operation_log = {}
+    names = session_log.get("operation_names", [])
+    errors = session_log.get("operation_errors", [])
+    for i, (name, err) in enumerate(zip(names, errors), 1):
+        operation_log[f"operation_name{i}"] = name
+        operation_log[f"operation_is_error{i}"] = err
+
+    log_data = {**session_log, **operation_log}
+
+    log_df = pd.DataFrame([log_data])
     log_file = os.path.join(os.getcwd(), "session_log.csv")
     write_header = not os.path.exists(log_file)
     log_df.to_csv(log_file, mode='a', index=False, header=write_header)
+
     try:
         import requests
-        log_data = {
+        post_data = {
             k: (v.isoformat() if isinstance(v, datetime) else v)
-            for k, v in session_log.items()
+            for k, v in log_data.items()
         }
-        
-        requests.post("https://stat5243-project3-1.onrender.com/log", json=log_data)
+        requests.post(LOG_SERVER_URL, json=post_data)
         print("📤 Session log successfully sent to server!")
     except Exception as e:
         print(f"⚠️ Failed to send log to server: {e}")
+
 import atexit
 
 
@@ -509,19 +520,25 @@ def server(input, output, session):
 
     # 日志初始结构（group 先设为 None，稍后赋值）
     session_log = {
-        "user_id": user_id,
-        "group": None,  # ⚠️ 不要直接 user_group()
-        "session_start_time": datetime.now(),
-        "session_end_time": None,
-        "total_session_time": None,
-        "apply_fe_button_clicked_count": 0,
-        "revert_button_clicked_count": 0,
-        "download_button_clicked_count": 0,
-        "apply_fe_button_error_count": 0,
-        "revert_button_error_count": 0,
-        "download_button_error_count": 0,
-        "download_button_clicked_time": None,
-    }
+    "user_id": user_id,
+    "group": None,
+    "session_start_time": datetime.now(),
+    "session_end_time": None,
+    "total_session_time": None,
+    "apply_fe_button_clicked_count": 0,
+    "revert_button_clicked_count": 0,
+    "download_button_clicked_count": 0,
+    "apply_fe_button_error_count": 0,
+    "revert_button_error_count": 0,
+    "download_button_error_count": 0,
+    "download_button_clicked_time": None,
+    "operation_names": [],
+    "operation_errors": [],
+}
+    for i in range(1, 11):
+        session_log[f"operation_name{i}"] = None
+        session_log[f"operation_is_error{i}"] = None
+    session_log["has_error"] = False
     @reactive.effect
     def update_group_value():
         session_log["group"] = user_group()
@@ -644,71 +661,96 @@ def server(input, output, session):
             feature_status.set("❌ No data available for feature engineering")
             return
 
-        try:
-            previous_data.set(df.copy())
-            
-            df = df.copy()
-            status_messages = []
-            
-            column = input.featureColumn()
-            operation = input.featureOperation()
-            
-            if column and operation != "None":
-                if operation == "Normalize":
-                    df[column] = (df[column] - df[column].min()) / (df[column].max() - df[column].min())
-                    status_messages.append(f"✓ Normalized column: {column}")
-                    
-                elif operation == "One-Hot":
-                    df = pd.get_dummies(df, columns=[column])
-                    status_messages.append(f"✓ One-hot encoded column: {column}")
-                    
-                elif operation == "Convert Date Format":
-                    df[column] = pd.to_datetime(df[column], errors="coerce")
-                    df[f"{column}_year"] = df[column].dt.year
-                    df[f"{column}_month"] = df[column].dt.month
-                    df[f"{column}_day"] = df[column].dt.day
-                    
-                    try:
-                        input_date = datetime(input.input_year(), 
-                                           input.input_month(), 
-                                           input.input_day())
-                        df[f"{column}_days_since_input_date"] = (input_date - df[column]).dt.days
-                        status_messages.append(f"✓ Created date features for: {column}")
-                    except ValueError as e:
-                        status_messages.append(f"⚠️ Invalid date input: {str(e)}")
-                    
-                    df.drop(columns=[column], inplace=True)
-                    
-                elif operation == "Box-Cox":
-                    df[column] = pd.to_numeric(df[column], errors="coerce")
-                    if df[column].min() <= 0:
-                        shift = abs(df[column].min()) + 1
-                        df[column] += shift
-                        status_messages.append(f"✓ Shifted data by {shift}")
-                    df[column], _ = stats.boxcox(df[column])
-                    status_messages.append(f"✓ Applied Box-Cox transformation")
+        previous_data.set(df.copy())
+        df = df.copy()
+        status_messages = []
 
-            # Multi-column operations
+        column = input.featureColumn()
+        operation = input.featureOperation()
+
+        try:
+            if column and operation != "None":
+                op_name = operation.lower().replace(" ", "_")
+                op_error = ""
+
+                try:
+                    if operation == "Normalize":
+                        df[column] = (df[column] - df[column].min()) / (df[column].max() - df[column].min())
+                        status_messages.append(f"✓ Normalized column: {column}")
+
+                    elif operation == "One-Hot":
+                        df = pd.get_dummies(df, columns=[column])
+                        status_messages.append(f"✓ One-hot encoded column: {column}")
+
+                    elif operation == "Convert Date Format":
+                        df[column] = pd.to_datetime(df[column], errors="coerce")
+                        df[f"{column}_year"] = df[column].dt.year
+                        df[f"{column}_month"] = df[column].dt.month
+                        df[f"{column}_day"] = df[column].dt.day
+
+                        try:
+                            input_date = datetime(input.input_year(),
+                                                input.input_month(),
+                                                input.input_day())
+                            df[f"{column}_days_since_input_date"] = (input_date - df[column]).dt.days
+                            status_messages.append(f"✓ Created date features for: {column}")
+                        except ValueError as e:
+                            op_error = f"⚠️ Invalid date input: {str(e)}"
+                            status_messages.append(op_error)
+
+                        df.drop(columns=[column], inplace=True)
+
+                    elif operation == "Box-Cox":
+                        df[column] = pd.to_numeric(df[column], errors="coerce")
+                        if df[column].min() <= 0:
+                            shift = abs(df[column].min()) + 1
+                            df[column] += shift
+                            status_messages.append(f"✓ Shifted data by {shift}")
+                        df[column], _ = stats.boxcox(df[column])
+                        status_messages.append(f"✓ Applied Box-Cox transformation")
+
+                except Exception as op_err:
+                    log_button_error("apply_fe_button")
+                    op_error = str(op_err)
+                    status_messages.append(f"❌ Error during '{operation}': {op_error}")
+
+                # 记录 operation 名和错误信息
+                session_log.setdefault("operation_names", []).append(op_name)
+                session_log.setdefault("operation_errors", []).append(op_error)
+
+            # 多列操作
             selected_columns = list(input.multiColumns())
             extra_operation = input.extraOperation()
-            
             if len(selected_columns) >= 2 and extra_operation != "None":
-                if extra_operation == "Average":
-                    df["weighted_avg"] = df[selected_columns].mean(axis=1)
-                    status_messages.append(f"✓ Created weighted average of: {', '.join(selected_columns)}")
-                    
-                elif extra_operation == "Interactions":
-                    col1, col2 = selected_columns[:2]
-                    df[f"{col1}_x_{col2}"] = df[col1] * df[col2]
-                    status_messages.append(f"✓ Created interaction: {col1}_x_{col2}")
+                op_name = extra_operation.lower().replace(" ", "_")
+                op_error = ""
+                try:
+                    if extra_operation == "Average":
+                        df["weighted_avg"] = df[selected_columns].mean(axis=1)
+                        status_messages.append(f"✓ Created weighted average of: {', '.join(selected_columns)}")
+
+                    elif extra_operation == "Interactions":
+                        col1, col2 = selected_columns[:2]
+                        df[f"{col1}_x_{col2}"] = df[col1] * df[col2]
+                        status_messages.append(f"✓ Created interaction: {col1}_x_{col2}")
+
+                except Exception as e:
+                    log_button_error("apply_fe_button")
+                    op_error = str(e)
+                    status_messages.append(f"❌ Error during '{extra_operation}': {op_error}")
+
+                session_log.setdefault("operation_names", []).append(op_name)
+                session_log.setdefault("operation_errors", []).append(op_error)
 
             data.set(df)
             update_ui_with_data(df)
             feature_status.set("\n".join(status_messages))
-            
+
         except Exception as e:
             log_button_error("apply_fe_button")
-            feature_status.set(f"❌ Error in feature engineering: {str(e)} is not a selected column")
+            session_log.setdefault("operation_names", []).append(operation.lower().replace(" ", "_"))
+            session_log.setdefault("operation_errors", []).append(str(e))
+            feature_status.set(f"❌ Error in feature engineering: {str(e)}")
 
     @reactive.effect
     @reactive.event(input.revertChange)
@@ -760,13 +802,23 @@ def server(input, output, session):
     def featureStatus():
         return feature_status.get()
 
-    @output
-    @render.table
-    def featureDataTable():
-        df = data.get()
-        if df is None:
-            return pd.DataFrame({'Message': ['No data available']})
-        return df.head(10)
+    # @output
+    # @render.table
+    # def operationLogTable():
+    #     names = session_log.get("operation_names", [])
+    #     errors = session_log.get("operation_errors", [])
+    #     if not names:
+    #         return pd.DataFrame({"Message": ["No operation logs yet."]})
+        
+    #     rows = []
+    #     for i, (name, err) in enumerate(zip(names, errors), 1):
+    #         rows.append({
+    #             "operation_name": f"operation_name{i}",
+    #             "operation_value": name,
+    #             "operation_is_error": err
+    #         })
+        
+    #     return pd.DataFrame(rows)
 
     @reactive.effect
     @reactive.event(input.processData)
