@@ -1,40 +1,51 @@
 {
-  "columns": [
-    "user_id",
-    "group",
-    "session_start_time",
-    "session_end_time",
-    "total_session_time",
-    "apply_fe_button_clicked_count",
-    "revert_button_clicked_count",
-    "download_button_clicked_count",
-    "apply_fe_button_error_count",
-    "revert_button_error_count",
-    "download_button_error_count",
-    "download_button_clicked_time",
-    "apply_fe_button_clicked_rate",
-    "revert_button_clicked_rate",
-    "download_button_clicked_rate"
-  ],
-  "last_logs": [
-    {
-      "apply_fe_button_clicked_count": 11,
-      "apply_fe_button_clicked_rate": 0.3511203564292962,
-      "apply_fe_button_error_count": 0,
-      "download_button_clicked_count": 1,
-      "download_button_clicked_rate": 0.0319200324026632,
-      "download_button_clicked_time": "2025-04-19T10:15:21.730188",
-      "download_button_error_count": 0,
-      "group": "Betty",
-      "revert_button_clicked_count": 0,
-      "revert_button_clicked_rate": 0.0,
-      "revert_button_error_count": 0,
-      "session_end_time": "2025-04-19T10:15:35.618105",
-      "session_start_time": "2025-04-19T10:15:04.289816",
-      "total_session_time": 31.328289,
-      "user_id": "2186aada-bb9a-4eb8-ba81-3a3722057581"
-    }
-  ],
-  "latest_time": "2025-04-19T10:15:35.618105",
-  "total_logs": 1
-}
+    "user_id": "c9ac4c89-0ba8-4d72-b8e0-375872bb3d70",
+    "group": "Rain",
+    "session_start_time": "2025-04-20 10:20:23.474427",
+    "session_end_time": "2025-04-20 10:22:54.669948",
+    "total_session_time": 151.195521,
+    "apply_fe_button_clicked_count": 3,
+    "revert_button_clicked_count": 0,
+    "download_button_clicked_count": 1,
+    "apply_fe_button_error_count": 0,
+    "revert_button_error_count": 0,
+    "download_button_error_count": 0,
+    "download_button_clicked_time": "2025-04-20 10:22:11.788919",
+    "operation_names": ["one-hot", "one-hot", "interactions", "one-hot", "interactions"],
+    "operation_errors": ["", "", "", "", ""],
+    "apply_fe_button_clicked_rate": 0.019841857616932974,
+    "revert_button_clicked_rate": 0.0,
+    "download_button_clicked_rate": 0.006613952538977659
+  },
+  {
+    "user_id": "20ed6f25-5afb-4fc9-bbee-aead86b112bd",
+    "group": "",
+    "session_start_time": "2025-04-20 10:24:08.592884",
+    "session_end_time": "2025-04-20 10:24:55.538313",
+    "total_session_time": 46.945429,
+    "apply_fe_button_clicked_count": 9,
+    "revert_button_clicked_count": 0,
+    "download_button_clicked_count": 1,
+    "apply_fe_button_error_count": 9,
+    "revert_button_error_count": 0,
+    "download_button_error_count": 0,
+    "download_button_clicked_time": "2025-04-20 10:24:45.324349",
+    "operation_names": [
+      "normalize", "normalize", "normalize", "normalize", "normalize",
+      "normalize", "normalize", "normalize", "normalize"
+    ],
+    "operation_errors": [
+      "unsupported operand type(s) for -: 'str' and 'str'",
+      "unsupported operand type(s) for -: 'str' and 'str'",
+      "unsupported operand type(s) for -: 'str' and 'str'",
+      "unsupported operand type(s) for -: 'str' and 'str'",
+      "unsupported operand type(s) for -: 'str' and 'str'",
+      "unsupported operand type(s) for -: 'str' and 'str'",
+      "unsupported operand type(s) for -: 'str' and 'str'",
+      "unsupported operand type(s) for -: 'str' and 'str'",
+      "unsupported operand type(s) for -: 'str' and 'str'"
+    ],
+    "apply_fe_button_clicked_rate": 0.19171195559848864,
+    "revert_button_clicked_rate": 0.0,
+    "download_button_clicked_rate": 0.02130132839983207
+  }
