@@ -133,3 +133,19 @@ Session time isn't significantly different between interfaces
 Recommendation
 Based on the analysis, the red interface would be the recommended choice if minimizing errors is the primary goal. However, if higher engagement (more clicks) is prioritized, the gray interface might be preferred.
 All the plots, detailed statistics, and conclusions have been saved to C:/Users/凡曲/AB_Test_Results/ for further reference.
+
+
+Data claening -Qiaoyang Lin
+# 1. total_session_time in seconds
+# 2. total_clicked_count
+# 3. total_error_count
+# 4. Clicked and error rates
+# 5. Count number of each type of error in the operation column
+
+Detecting Outliers with 3.0 IQR, but we found that there's a lot of data to be eliminated. 
+We conclude that if variables like apply_fe_button_clicked_count or total_session_time are highly right-skewed (mostly low values, a few oversized), 
+even with 3 × IQR, all samples with long right tails will still be recognized as exceptions.
+Thus, we use other methods to cross-validate. Method 2: Detecting Outliers with Z-score and Method 3: Detecting Outliers with DBSCAN.
+Finally, we identify users who are detected as abnormal by all three methods
+
+
