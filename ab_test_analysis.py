@@ -54,8 +54,8 @@ def perform_statistical_test(data, group_col, metric_col):
 
 # Function to create comparison plot
 def create_comparison_plot(data, group_col, metric_col, metric_name):
-    # Create figure
-    fig, ax = plt.subplots(figsize=(12, 8))
+    # Create figure with increased height for better text spacing
+    fig, ax = plt.subplots(figsize=(14, 10))
     
     # Calculate means for plotting
     means = data.groupby(group_col)[metric_col].mean().reset_index()
@@ -69,10 +69,18 @@ def create_comparison_plot(data, group_col, metric_col, metric_name):
     # Perform statistical test
     p_val, test_name, is_normal = perform_statistical_test(data, group_col, metric_col)
     
-    # Create bar plot
-    sns.barplot(x=group_col, y=metric_col, data=means, ax=ax, palette="Set2")
+    # Create bar plot with increased width between bars
+    bars = sns.barplot(x=group_col, y=metric_col, data=means, ax=ax, palette="Set2", width=0.6)
     
-    # Add significance annotation
+    # Calculate y-axis limits for better spacing
+    y_max = max(means[metric_col].max(), medians[metric_col].max())
+    y_min = min(means[metric_col].min(), medians[metric_col].min())
+    y_range = y_max - y_min
+    
+    # Set y-axis limits with padding
+    ax.set_ylim(y_min - 0.1 * y_range, y_max + 0.4 * y_range)
+    
+    # Add significance annotation with adjusted position
     if p_val < 0.05:
         if p_val < 0.001:
             significance = "***"
@@ -81,21 +89,32 @@ def create_comparison_plot(data, group_col, metric_col, metric_name):
         else:
             significance = "*"
         
-        y_pos = max(means[metric_col]) * 1.1
+        y_pos = y_max + 0.15 * y_range
         ax.text(0.5, y_pos, significance, 
-                horizontalalignment='center', size='xx-large', color='red')
+                horizontalalignment='center', size=24, color='red')
     
-    # Add labels
-    plt.title(f'Comparison of {metric_name} between Groups\n({test_name}, p={p_val:.4f})', fontsize=16)
-    plt.xlabel('Group', fontsize=14)
-    plt.ylabel(metric_name, fontsize=14)
+    # Add labels with increased font sizes
+    plt.title(f'Comparison of {metric_name} between Groups\n({test_name}, p={p_val:.4f})', 
+             fontsize=20, pad=20)
+    plt.xlabel('Group', fontsize=18)
+    plt.ylabel(metric_name, fontsize=18)
     
-    # Add actual values on bars
+    # Increase tick label sizes
+    plt.xticks(fontsize=16)
+    plt.yticks(fontsize=16)
+    
+    # Add actual values on bars with adjusted positions
     for i, (mean_val, median_val) in enumerate(zip(means[metric_col], medians[metric_col])):
-        ax.text(i, mean_val * 0.9, f'Mean: {mean_val:.4f}', ha='center', fontsize=12, color='black')
-        ax.text(i, mean_val * 0.8, f'Median: {median_val:.4f}', ha='center', fontsize=12, color='black')
+        # Position mean and median labels with better spacing
+        mean_y = mean_val + 0.02 * y_range
+        median_y = mean_val + 0.08 * y_range
+        
+        ax.text(i, mean_y, f'Mean: {mean_val:.4f}', 
+                ha='center', fontsize=16, color='black')
+        ax.text(i, median_y, f'Median: {median_val:.4f}', 
+                ha='center', fontsize=16, color='black')
     
-    # Add detailed statistics as text
+    # Add detailed statistics as text with improved formatting and position
     textstr = '\n'.join([
         f"Normality assumption {'met' if is_normal else 'not met'}",
         f"Statistical test used: {test_name}",
@@ -103,20 +122,17 @@ def create_comparison_plot(data, group_col, metric_col, metric_name):
         f"Significant difference: {'Yes' if p_val < 0.05 else 'No'}"
     ])
     
-    # Add a box for the statistics
-    props = dict(boxstyle='round', facecolor='wheat', alpha=0.5)
-    ax.text(0.05, 0.95, textstr, transform=ax.transAxes, fontsize=12,
+    # Add a box for the statistics with adjusted position and style
+    props = dict(boxstyle='round,pad=0.5', facecolor='white', alpha=0.8, edgecolor='gray')
+    ax.text(0.05, 0.98, textstr, transform=ax.transAxes, fontsize=16,
             verticalalignment='top', bbox=props)
     
-    # Save figure to results directory
-    plt.tight_layout()
+    # Save figure to results directory with improved resolution
+    plt.tight_layout(rect=[0, 0.03, 1, 0.95])  # Adjust layout to prevent text cutoff
     save_path = os.path.join(results_dir, f'{metric_col}_comparison.png')
-    plt.savefig(save_path, dpi=300)
+    plt.savefig(save_path, dpi=300, bbox_inches='tight')
     
     print(f"Plot saved to: {save_path}")
-    
-    # Display the plot - comment this out if you don't want it to display
-    # plt.show()
     
     # Close the plot to free memory
     plt.close(fig)
