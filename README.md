@@ -42,7 +42,7 @@ Data is written to a local CSV file (`session_log.csv`) and can be sent to a log
 A lightweight log server built with Flask and deployed on Render, designed to receive and record user behavior data (e.g., click counts, session duration) from the frontend Shiny Web App, supporting A/B testing experiment analysis.
 
 
-#### 🌍 Project Deployment URLs**
+#### 🌍 Project Deployment
 
 - Service Homepage: 
   [`https://stat5243-project3-1.onrender.com`](https://stat5243-project3-1.onrender.com)
@@ -81,7 +81,7 @@ logs/session_log_20250418.csv
 
 ---
 
-💡 Statistical Analysis
+### 💡 Statistical Analysis
 
 The cleaned and feature engineered dataset can be found in [ab_test_log_step3_cleaned.csv](ab_test_log_step3_cleaned.csv)
 
