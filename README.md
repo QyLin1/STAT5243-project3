@@ -33,6 +33,8 @@ Data is written to a local CSV file (`session_log.csv`) and can be sent to a log
 - Visualization (line charts, bar charts, scatter plots, histograms, correlation heatmaps)
 - Logging system automatically records user behavior data for experiment evaluation
 
+
+
 ---
 
 ### 📊 STAT5243 Log Server
@@ -77,3 +79,15 @@ logs/session_log_20250418.csv
 | abcd123 | B     | 2024-04-18T10:00   | ... | 2                             |
 
 
+---
+
+💡 Statistical Analysis
+
+The cleaned and feature engineered dataset can be found in [ab_test_log_step3_cleaned.csv](ab_test_log_step3_cleaned.csv)
+
+** To analyze the logged data, run 
+```bash
+python ab_test_analysis.py
+```
+
+The analysis results and plots will be saved to `AB_Test_results/` folder. 
