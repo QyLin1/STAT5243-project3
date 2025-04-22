@@ -14,7 +14,7 @@ plt.rcParams['figure.figsize'] = [12, 8]  # Set larger figure size
 plt.rcParams['font.size'] = 12  # Increase font size
 
 # Create a results directory
-results_dir = 'C:/Users/凡曲/AB_Test_Results'
+results_dir = 'AB_Test_Results/'
 if not os.path.exists(results_dir):
     os.makedirs(results_dir)
 
@@ -116,7 +116,7 @@ def create_comparison_plot(data, group_col, metric_col, metric_name):
     print(f"Plot saved to: {save_path}")
     
     # Display the plot - comment this out if you don't want it to display
-    plt.show()
+    # plt.show()
     
     # Close the plot to free memory
     plt.close(fig)
@@ -204,6 +204,63 @@ def draw_conclusions(results):
     # Return conclusions as a list of strings for saving to file
     return conclusions
 
+# Function to create aggregated comparison plot
+def create_aggregated_comparison_plot(data, metrics):
+    # Create figure
+    fig, ax = plt.subplots(figsize=(15, 10))
+    
+    # Prepare data for plotting
+    plot_data = []
+    for metric_col, metric_name in metrics:
+        # Calculate means for both groups
+        means = data.groupby('group')[metric_col].mean()
+        # Normalize the values to make them comparable
+        max_val = data[metric_col].max()
+        min_val = data[metric_col].min()
+        normalized_means = (means - min_val) / (max_val - min_val)
+        
+        for group in ['red', 'gray']:
+            plot_data.append({
+                'Metric': metric_name,
+                'Group': group,
+                'Normalized Value': normalized_means[group],
+                'Original Value': means[group]
+            })
+    
+    # Convert to DataFrame
+    plot_df = pd.DataFrame(plot_data)
+    
+    # Create grouped bar plot
+    sns.barplot(x='Metric', y='Normalized Value', hue='Group', data=plot_df, ax=ax, palette=['red', 'gray'])
+    
+    # Customize the plot with larger text sizes
+    plt.title('Comparison of All Metrics Between Groups (Normalized Values)', fontsize=20, pad=20)
+    plt.xlabel('Metrics', fontsize=20)
+    plt.ylabel('Normalized Value', fontsize=20)
+    
+    # Increase tick label sizes
+    plt.xticks(rotation=45, ha='right', fontsize=18)
+    plt.yticks(fontsize=16)
+    
+    # Increase legend text size
+    plt.legend(fontsize=20)
+    
+    # Add value labels on the bars with larger font
+    for i, row in enumerate(plot_df.itertuples()):
+        ax.text(i // 2, row._3, f'{row._4:.3f}', 
+                ha='center', va='bottom', fontsize=18)
+    
+    # Adjust layout
+    plt.tight_layout()
+    
+    # Save figure
+    save_path = os.path.join(results_dir, 'aggregated_metrics_comparison.png')
+    plt.savefig(save_path, dpi=300, bbox_inches='tight')
+    print(f"\nAggregated comparison plot saved to: {save_path}")
+    
+    # Close the plot
+    plt.close(fig)
+
 # Main analysis function
 def analyze_ab_test():
     print("Starting AB Test Analysis...")
@@ -211,8 +268,8 @@ def analyze_ab_test():
     
     try:
         # Load the dataset - Updated file path
-        print("Loading data from: C:/Users/凡曲/Downloads/ab_test_log_step3_cleaned.csv")
-        data = pd.read_csv('C:/Users/凡曲/Downloads/ab_test_log_step3_cleaned.csv')
+        print("Loading data from: ab_test_log_step3_cleaned.csv")
+        data = pd.read_csv('ab_test_log_step3_cleaned.csv')
         
         print("\nData loaded successfully!")
         print(f"Dataset shape: {data.shape}")
@@ -292,6 +349,9 @@ def analyze_ab_test():
         # Save summary results to CSV
         csv_path = os.path.join(results_dir, 'ab_test_analysis_results.csv')
         results_df.to_csv(csv_path, index=False)
+        
+        # Create aggregated comparison plot
+        create_aggregated_comparison_plot(data, metrics)
         
         # Draw conclusions based on the analysis
         conclusions = draw_conclusions(all_results)
