@@ -85,7 +85,7 @@ logs/session_log_20250418.csv
 
 The cleaned and feature engineered dataset can be found in [ab_test_log_step3_cleaned.csv](ab_test_log_step3_cleaned.csv)
 
-** To analyze the logged data, run 
+To analyze the logged data, run 
 ```bash
 python ab_test_analysis.py
 ```
