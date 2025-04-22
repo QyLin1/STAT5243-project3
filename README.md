@@ -96,7 +96,7 @@ The analysis results and plots will be saved to `AB_Test_results/` folder.
 ---
 
 
-Results and Insights
+### Results and Insights
 
 From a statistical perspective, we observe significant results in most core interaction metrics: clicked count, clicked rate, error count, error rate, session time, and overall engagement.
 
