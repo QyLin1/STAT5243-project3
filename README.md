@@ -37,7 +37,7 @@ Data is written to a local CSV file (`session_log.csv`) and can be sent to a log
 
 ---
 
-### 📊 STAT5243 Log Server
+### 🖥️ Log Server
 
 A lightweight log server built with Flask and deployed on Render, designed to receive and record user behavior data (e.g., click counts, session duration) from the frontend Shiny Web App, supporting A/B testing experiment analysis.
 
