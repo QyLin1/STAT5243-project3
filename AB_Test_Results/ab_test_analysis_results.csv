@@ -1,0 +1,6 @@
+Metric,Test,p-value,Significant,Red Mean,Gray Mean,Better Group,Normality Assumption Met
+Clicked Rate,Mann-Whitney U test,0.009888109450586918,True,0.03357731382634485,0.04166743017533935,gray,False
+Clicked Count,Mann-Whitney U test,0.010578689203656524,True,6.733333333333333,8.00952380952381,gray,False
+Session Time (seconds),Mann-Whitney U test,0.5539893786756138,False,209.3228726,205.1076542761905,No difference,False
+Error Count,Mann-Whitney U test,3.2934069374047814e-05,True,0.4666666666666667,1.1047619047619048,red,False
+Error Rate,Mann-Whitney U test,3.5353812387081636e-05,True,0.002402140131668384,0.0056231576687487605,red,False

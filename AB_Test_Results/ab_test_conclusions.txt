@@ -1,0 +1,15 @@
+=== AB TEST ANALYSIS CONCLUSIONS ===
+
+1. The 'gray' group performs 21.5% better in terms of clicked rate compared to the red group. Gray interface shows significantly HIGHER clicked rate (0.0417 vs 0.0336).
+
+2. The 'gray' group performs 17.3% better in terms of clicked count compared to the red group. Gray interface shows significantly HIGHER clicked count (8.0095 vs 6.7333).
+
+3. There is no statistically significant difference in session time (seconds) between the red and gray groups (red: 209.3229 vs gray: 205.1077, p-value: 0.5540).
+
+4. Users are 81.2% more likely to make errors under the 'red' group compared to the gray group. Red interface shows significantly LOWER error count (0.4667 vs 1.1048).
+
+5. Users are 80.3% more likely to make errors under the 'red' group compared to the gray group. Red interface shows significantly LOWER error rate (0.0024 vs 0.0056).
+
+
+=== OVERALL RECOMMENDATION ===
+Both RED and GRAY interfaces have equal performance across the metrics showing significant differences.
