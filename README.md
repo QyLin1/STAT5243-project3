@@ -1,6 +1,4 @@
-# STAT5243-project3
-
-### project3 - A/B Testing
+# STAT 5243 Project 3 A/B Testing
 
 Jinze Shi, Qiaoyang Lin, Nan Xiao, Yemin Wang, Sally Liu
 
@@ -13,17 +11,17 @@ Group A: Displays red prompt text (default style)
 Group B: Displays black prompt text (de-emphasized)
 
 **🎯 Measured Metrics:**
+
 Each user session logs the following behavioral metrics via the logging system:
 
-apply_fe_button_clicked_count: Number of clicks to apply feature engineering
-apply_fe_button_error_count: Number of errors during clicks
-revert_button_clicked_count: Number of clicks to revert changes
-download_button_clicked_count: Number of clicks to download data
-download_button_clicked_time: Time of the first download button click
-*_clicked_rate: Click count for each button / total session time
-session_start_time, session_end_time, total_session_time
+`apply_fe_button_clicked_count`: Number of clicks to apply feature engineering
+`apply_fe_button_error_count`: Number of errors during clicks
+`revert_button_clicked_count`: Number of clicks to revert changes
+`download_button_clicked_count`: Number of clicks to download data
+`download_button_clicked_time`: Time of the first download button click
+`session_start_time`, `session_end_time`: The beggin and end time of the user session
 
-Data is written to a local CSV file (session_log.csv) and can be sent to a log server via HTTP POST.
+Data is written to a local CSV file (`session_log.csv`) and can be sent to a log server via HTTP POST.
 
 **🧩 Functional Modules:**
 
@@ -35,12 +33,13 @@ Data is written to a local CSV file (session_log.csv) and can be sent to a log s
 - Logging system automatically records user behavior data for experiment evaluation
 
 
-## 📊 STAT5243 Log Server
+#### 📊 STAT5243 Log Server
 
 This is a lightweight log server built with Flask and deployed on Render, designed to receive and record user behavior data (e.g., click counts, session duration) from the frontend Shiny Web App, supporting A/B testing experiment analysis.
+
 ---
 
-## 🌍 Project Deployment URLs
+#### 🌍 Project Deployment URLs**
 
 - **Service Homepage:**：  
   [`https://stat5243-project3-1.onrender.com`](https://stat5243-project3-1.onrender.com)
@@ -53,7 +52,7 @@ This is a lightweight log server built with Flask and deployed on Render, design
 
 ---
 
-## 🔧 Render Configuration Details
+#### 🔧 Render Configuration Details
  
 | Configuration Item    | Value                                   |
 |-----------------------|-----------------------------------------|
@@ -64,7 +63,7 @@ This is a lightweight log server built with Flask and deployed on Render, design
 
 
 
-## 📁 Data Storage Format (One CSV per Day)
+#### 📁 Data Storage Format
 
 Logs are automatically saved in the `logs/` folder with daily date-based naming:
 
@@ -72,7 +71,7 @@ Logs are automatically saved in the `logs/` folder with daily date-based naming:
 logs/session_log_20250418.csv
 ```
 
-Example fields:
+**Example fields**:
 
 | user_id | group | session_start_time | ... | download_button_clicked_count |
 |---------|-------|--------------------|-----|-------------------------------|
