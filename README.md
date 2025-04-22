@@ -7,19 +7,20 @@ This is an interactive data cleaning and feature engineering platform built with
 **🔬 A/B Testing Objective:**  
 We use the prompt color of the Note (e.g., red vs. black) as the experimental variable, randomly assigning users to two groups:
 
-Group A: Displays red prompt text (default style)
-Group B: Displays black prompt text (de-emphasized)
+- Group A: Displays red prompt text (default style)
+- Group B: Displays black prompt text (de-emphasized)
 
 **🎯 Measured Metrics:**
 
 Each user session logs the following behavioral metrics via the logging system:
 
-`apply_fe_button_clicked_count`: Number of clicks to apply feature engineering
-`apply_fe_button_error_count`: Number of errors during clicks
-`revert_button_clicked_count`: Number of clicks to revert changes
-`download_button_clicked_count`: Number of clicks to download data
-`download_button_clicked_time`: Time of the first download button click
-`session_start_time`, `session_end_time`: The beggin and end time of the user session
+- `apply_fe_button_clicked_count`: Number of clicks to apply feature engineering
+- `apply_fe_button_error_count`: Number of errors during clicks
+- `revert_button_clicked_count`: Number of clicks to revert changes
+- `download_button_clicked_count`: Number of clicks to download data
+- `download_button_clicked_time`: Time of the first download button click
+- `session_start_time`, `session_end_time`: The beggin and end time of the user session
+- ...
 
 Data is written to a local CSV file (`session_log.csv`) and can be sent to a log server via HTTP POST.
 
@@ -28,29 +29,28 @@ Data is written to a local CSV file (`session_log.csv`) and can be sent to a log
 - Data file upload and built-in data loading (supports CSV, Excel, JSON, RDS, etc.)
 - Variable selection and data cleaning
 - Missing value handling (convert to NA, mean/mode imputation, listwise deletion)
-- Feature engineering operations (normalization, one-hot encoding, date-to-days conversion, Box-Cox transformation)
+- Feature engineering operations (Normalization, One-hot encoding, Date Format conversion, Box-Cox transformation)
 - Visualization (line charts, bar charts, scatter plots, histograms, correlation heatmaps)
 - Logging system automatically records user behavior data for experiment evaluation
 
-
-#### 📊 STAT5243 Log Server
-
-This is a lightweight log server built with Flask and deployed on Render, designed to receive and record user behavior data (e.g., click counts, session duration) from the frontend Shiny Web App, supporting A/B testing experiment analysis.
-
 ---
+
+### 📊 STAT5243 Log Server
+
+A lightweight log server built with Flask and deployed on Render, designed to receive and record user behavior data (e.g., click counts, session duration) from the frontend Shiny Web App, supporting A/B testing experiment analysis.
+
 
 #### 🌍 Project Deployment URLs**
 
-- **Service Homepage:**：  
+- Service Homepage: 
   [`https://stat5243-project3-1.onrender.com`](https://stat5243-project3-1.onrender.com)
 
-- **Log Upload Endpoint:**：  
+- Log Upload Endpoint:  
   `POST https://stat5243-project3-1.onrender.com/log`
 
-- **Status Check Endpoint:**：  
+- Status Check Endpoint:
   `GET  https://stat5243-project3-1.onrender.com/status`
 
----
 
 #### 🔧 Render Configuration Details
  
@@ -60,7 +60,6 @@ This is a lightweight log server built with Flask and deployed on Render, design
 | Build Command         | `pip install -r requirements.txt`       |
 | Start Command         | `python server.py`                      |
 | Port                  | Automatically bound to Flask's port 5000| 
-
 
 
 #### 📁 Data Storage Format
@@ -78,4 +77,3 @@ logs/session_log_20250418.csv
 | abcd123 | B     | 2024-04-18T10:00   | ... | 2                             |
 
 
----
