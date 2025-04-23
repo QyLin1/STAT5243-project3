@@ -1,17 +1,40 @@
-.qodo
-session_log.csv
-venv/
+# Python
 __pycache__/
-*.pyc
-*.pyo
-*.pyd
-*.pyw
-*.pyz
-.ipynb_checkpoints/
-*/__pycache__/
-*/.ipynb_checkpoints/
-*/.DS_Store
-*/.ipynb_checkpoints/
-*/.ipynb_checkpoints/
-*/.ipynb_checkpoints/
-*/.ipynb_checkpoints/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environment
+venv/
+ENV/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Logs
+*.log
+session_log.csv
+
+# OS
+.DS_Store
+Thumbs.db
