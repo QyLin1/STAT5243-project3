@@ -10,13 +10,13 @@ os.makedirs(LOG_DIR, exist_ok=True)
 
 @app.route("/")
 def hello():
-    return "📊 STAT5243 Log Server is running!"
+    return " STAT5243 Log Server is running!"
 
 @app.route("/log", methods=["POST"])
 def receive_log():
     try:
         data = request.get_json()
-        print("📥 Received log:", data)
+        print(" Received log:", data)
         if not data:
             return jsonify({"error": "No JSON received"}), 400
 
@@ -27,7 +27,7 @@ def receive_log():
         write_header = not os.path.exists(log_file)
         df.to_csv(log_file, mode='a', index=False, header=write_header)
 
-        return jsonify({"status": "✅ Log saved"}), 200
+        return jsonify({"status": " Log saved"}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
