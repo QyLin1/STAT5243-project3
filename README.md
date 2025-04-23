@@ -88,7 +88,7 @@ logs/session_log_20250418.csv
 
 - [app_1.py](STAT5243_project_2/app_1.py): Interface for group B (Black Prompt) 
 
-  - App deployed at [ https://stat5243-groupb.shinyapps.io/feature-engineering-app/]( https://stat5243-groupa.shinyapps.io/feature-engineering-app/)
+  - App deployed at [ https://stat5243-groupb.shinyapps.io/feature-engineering-app/](  https://sallyliu.shinyapps.io/feature-engineering-app/)
 
 - [server.py](STAT5243_log_server/server.py): Our log server
 
