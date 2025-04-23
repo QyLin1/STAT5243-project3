@@ -1,0 +1,17 @@
+.qodo
+session_log.csv
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pyw
+*.pyz
+.ipynb_checkpoints/
+*/__pycache__/
+*/.ipynb_checkpoints/
+*/.DS_Store
+*/.ipynb_checkpoints/
+*/.ipynb_checkpoints/
+*/.ipynb_checkpoints/
+*/.ipynb_checkpoints/

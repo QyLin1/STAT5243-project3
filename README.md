@@ -82,7 +82,7 @@ logs/session_log_20250418.csv
 ---
 ### ⌨️ Code
 
-- [app_0.py](STAT5243_project_2/app_0.py): Interface for group A (Red Prompt) 
+- [app_0.py](STAT5243_project_2/app_0.py): Interface for group A (Red Prompt)
 
 - [app_1.py](STAT5243_project_2/app_1.py): Interface for group B (Black Prompt) 
 
