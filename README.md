@@ -76,7 +76,7 @@ logs/session_log_20250418.csv
 
 | user_id | group | session_start_time | ... | download_button_clicked_count |
 |---------|-------|--------------------|-----|-------------------------------|
-| abcd123 | B     | 2024-04-18T10:00   | ... | 2                             |
+| abcd123 | black | 2024-04-18T10:00   | ... | 2                             |
 
 
 ---
