@@ -84,9 +84,42 @@ logs/session_log_20250418.csv
 
 - [app_0.py](STAT5243_project_2/app_0.py): Interface for group A (Red Prompt)
 
+  - App deployed at [ https://stat5243-groupa.shinyapps.io/feature-engineering-app/]( https://stat5243-groupb.shinyapps.io/feature-engineering-app/)
+
 - [app_1.py](STAT5243_project_2/app_1.py): Interface for group B (Black Prompt) 
 
+  - App deployed at [ https://stat5243-groupb.shinyapps.io/feature-engineering-app/]( https://stat5243-groupa.shinyapps.io/feature-engineering-app/)
+
 - [server.py](STAT5243_log_server/server.py): Our log server
+
+
+#### To run the app locally (Optional)
+
+1. Clone this repository
+
+``` bash
+git clone https://github.com/QyLin1/STAT5243-project3.git
+cd STAT5243_project_2
+```
+
+2. Create a virtual environment:
+
+```bash
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+```
+
+3. Install the dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+4. Run the app:
+
+```bash
+python app_0.py # python app_1.py
+```
 
 ---
 
@@ -100,7 +133,4 @@ python ab_test_analysis.py
 ```
 
 The analysis results and plots will be saved to `AB_Test_results/` folder. 
-
-
----
 
