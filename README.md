@@ -7,8 +7,8 @@ This is an interactive data cleaning and feature engineering platform built with
 **🔬 A/B Testing Objective:**  
 We use the prompt color of the Note (e.g., red vs. black) as the experimental variable, randomly assigning users to two groups:
 
-- Group A: Displays red prompt text (default style)
-- Group B: Displays black prompt text (de-emphasized)
+- Group A: Displays red prompt text (emphasized)
+- Group B: Displays black prompt text (neutral)
 
 **🎯 Measured Metrics:**
 
@@ -80,6 +80,11 @@ logs/session_log_20250418.csv
 
 
 ---
+### ⌨️ Code
+
+
+
+---
 
 ### 💡 Statistical Analysis
 
@@ -95,15 +100,3 @@ The analysis results and plots will be saved to `AB_Test_results/` folder.
 
 ---
 
-
-### 📖 Results and Insights
-
-From a statistical perspective, we observe significant results in most core interaction metrics: clicked count, clicked rate, error count, error rate, session time, and overall engagement.
-
-The gray interface outperforms the red interface in both clicked rate and clicked count, indicating that users were more actively engaged with the interface when the prompts were presented in gray. This suggests that a less visually dominant design may encourage users to explore or interact more freely.
-
-On the other hand, the red interface demonstrates superior performance in reducing errors—both in terms of error count and error rate. Users were significantly less likely to make mistakes under the red design, which could be attributed to the caution-inducing nature of red elements.
-
-Session time did not differ significantly between the two groups, indicating that the variation in user behavior was not due to time spent but rather the quality and intent of interaction.
-
-From a design and user experience perspective, this experiment reveals a trade-off between engagement and accuracy. The gray interface facilitates exploration, which can be ideal in discovery phases, low-risk settings, or when gathering behavioral data. The red interface enhances clarity and controllability, making it preferable in tasks that require accuracy, such as payment, financial actions, or data validation. Future iterations could explore a hybrid approach that can adjust the color scheme based on context, user roles, or task criticality to achieve a better balance between interaction and precision. 
